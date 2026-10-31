@@ -33,3 +33,30 @@ def add_movie():
     return jsonify(movie.to_dict()), 201
 
 #update movie
+@movie_bp.route("/movies/<int:id>",methods=['PUT'])
+def update_movie(id):
+    movie= Movie.query.get_or_404(id)
+    data=request.get_json()
+
+    movie.title=data.get("title",movie.title)
+    movie.genre = data.get("genre", movie.genre)
+    movie.director = data.get("director", movie.director)
+    movie.release_year = data.get("release_year", movie.release_year)
+    movie.rating = data.get("rating", movie.rating)
+    movie.description = data.get("description", movie.description)
+
+    db.session.commit()
+
+    return jsonify(movie.to_dict())
+
+
+#delete movie
+@movie_bp.route("/movies/>int:id>",methods=["DELETE"])
+def delete_movie(id):
+    movie=Movie.query.get_or_404(id)
+    db.session.delete(movie)
+
+    db.session.delete(movie)
+    db.session.commit()
+
+    return jsonify({"message": "Movie deleted successfully"})
