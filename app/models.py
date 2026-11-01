@@ -1,4 +1,4 @@
-from app import db
+from app.init import db
 
 class Movie(db.Model):
     id=db.Column(db.Integer,primary_key=True)
